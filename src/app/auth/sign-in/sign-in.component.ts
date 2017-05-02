@@ -15,6 +15,7 @@ import { AuthStorage } from '../auth.storage';
 export class SignInComponent implements OnInit {
     user: UserSignIn;
     message: Message;
+    isLoading = false;
     constructor(
         private _authService: AuthService, 
         private _authStorage: AuthStorage,
@@ -27,7 +28,9 @@ export class SignInComponent implements OnInit {
     }
 
     login(){
+        this.isLoading = true;
         this._authService.login(this.user).subscribe((response) => {
+            this.isLoading = false;
             if(response.error){
                 this.message = {
                     type: 'danger',
