@@ -1,0 +1,6 @@
+* {
+  font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+.content-wrapper{
+    min-height: 700px;
+}
