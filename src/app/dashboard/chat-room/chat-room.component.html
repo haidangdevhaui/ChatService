@@ -1,13 +1,117 @@
 <section class="content-header">
-    <h1>
+  <h1>
     Chat Room
-    </h1>
-    <ol class="breadcrumb">
+  </h1>
+  <ol class="breadcrumb">
     <li><a routerLink="/dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
     <li class="active">Chat Room</li>
-    </ol>
+  </ol>
 </section>
 
 <section class="content">
-    Chat room
+    <div class="col-lg-12 main_section box box-primary">
+        <div class="chat_container">
+            <div class="col-sm-3 chat_sidebar">
+                <div class="row">
+                    <div id="custom-search-input">
+                        <div class="input-group col-md-12">
+                            <input type="text" class="  search-query form-control" placeholder="Conversation" />
+                            <button class="btn btn-danger" type="button">
+                                <span class="fa fa-search"></span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="dropdown all_conversation">
+                        <button class="dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-weixin" aria-hidden="true"></i>
+                            All Conversations
+                            <span class="caret pull-right"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                            <li><a href="#"> All Conversation </a>
+                                <ul class="sub_menu_ list-unstyled">
+                                    <li><a href="#"> All Conversation </a> </li>
+                                    <li><a href="#">Another action</a></li>
+                                    <li><a href="#">Something else here</a></li>
+                                    <li><a href="#">Separated link</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#">Another action</a></li>
+                            <li><a href="#">Something else here</a></li>
+                            <li><a href="#">Separated link</a></li>
+                        </ul>
+                    </div>
+                    <div class="member_list">
+                        <ul class="list-unstyled">
+                            <li class="left clearfix" *ngFor="let cl of clients" (click)="getClientMessage(cl.clientID)">
+                                <span class="chat-img pull-left">
+                                    <img src="/assets/img/avatar_default.jpg" alt="User Avatar" class="img-circle">
+                                </span>
+                                <div class="chat-body clearfix">
+                                    <div class="header_sec">
+                                        <strong class="primary-font">{{ cl.clientID }}</strong> <strong class="pull-right">{{ cl.timer }}</strong>
+                                    </div>
+                                    <div class="contact_sec" *ngIf="watched[cl.clientID]">
+                                        <strong class="primary-font"></strong> <span class="badge pull-right">new</span>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        <!--chat_sidebar-->
+        
+        <div class="col-sm-9 message_section">
+            <div class="row">
+                <div class="new_message_head">
+                    <div class="pull-left">
+                        <button>
+                            <i class="fa fa-plus-square-o" aria-hidden="true"></i> New Message
+                        </button>
+                    </div>
+                    <div class="pull-right">
+                        <div class="dropdown">
+                            <button class="dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-cogs" aria-hidden="true"></i>Setting<span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
+                                <li><a href="#">Action</a></li>
+                                <li><a href="#">Profile</a></li>
+                                <li><a href="#">Logout</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                    <!--new_message_head-->
+
+                    <div class="chat_area">
+                        <ul class="list-unstyled">
+                            <li class="left clearfix" *ngFor="let msg of boxs[message.clientID]">
+                                <span class="chat-img1 {{msg.person == 'client' ? 'pull-left' : 'pull-right'}}">
+                                    <img src="/assets/img/avatar_default.jpg" alt="User Avatar" class="img-circle">
+                                </span>
+                                <div class="chat-body1 clearfix">
+                                    <p>{{ msg.text }}</p>
+                                    <div class="chat_time {{ msg.person == 'client' ? 'pull-right' : 'pull-left' }}">{{ msg.timer }}</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <!--chat_area-->
+                    <div class="message_write">
+                        <form #chatForm="ngForm" (ngSubmit)="chat()">
+                            <textarea class="form-control" placeholder="type a message" [(ngModel)]="message.text" name="text"></textarea>
+                            <div class="clearfix"></div>
+                            <div class="chat_bottom">
+                                <a href="#" class="pull-left upload_btn"><i class="fa fa-cloud-upload" aria-hidden="true"></i>Add Files</a>
+                                <button class="pull-right btn btn-success" type="submit">Send</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        <!--message_section-->
+        </div>
+    </div>
 </section>
