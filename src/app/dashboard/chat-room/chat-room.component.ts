@@ -1,6 +1,9 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ChatService } from './chat.service';
 import { Message } from './interfaces/message';
+import { AuthStorage } from '../../auth/auth.storage';
+import * as $ from 'jquery';
+import '../../../assets/js/app.min.js';
 
 export interface Client{
     clientID: String
@@ -26,7 +29,11 @@ export class ChatRoomComponent implements OnInit {
     clients: Client[];
     boxs: Boxs;
     watched: Object;
-    constructor(private _chatService: ChatService) { 
+    admin;
+    constructor(
+        private _chatService: ChatService,
+        private _authStorage: AuthStorage
+    ) { 
         this.message = {
             clientID: '',
             timer: '',
@@ -35,6 +42,7 @@ export class ChatRoomComponent implements OnInit {
         this.clients = [];
         this.boxs = {};
         this.watched = {};
+        this.admin = this._authStorage.user();
     }
     
     ngOnInit() { 
@@ -51,6 +59,7 @@ export class ChatRoomComponent implements OnInit {
             if(this.message.clientID != message.clientID){
                 this.watched[message.clientID.toString()] = true;
             }
+            $('.chat_area').animate({scrollTop: $('.chat_area').prop("scrollHeight")}, 'fast');
         })
     }
 
@@ -61,7 +70,8 @@ export class ChatRoomComponent implements OnInit {
                 this.boxs[message.clientID.toString()] = [];
             }
             this.boxs[message.clientID.toString()].push(message);
-            this.watched[message.clientID.toString()] = true;
+            // this.watched[message.clientID.toString()] = true;
+            $('.chat_area').animate({scrollTop: $('.chat_area').prop("scrollHeight")}, 'fast');
         });
     }
 

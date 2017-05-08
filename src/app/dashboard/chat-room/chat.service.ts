@@ -6,16 +6,18 @@ import 'rxjs/add/operator/catch';
 import * as io from 'socket.io-client';
 
 import { Message } from './interfaces/message';
+import { AuthStorage } from '../../auth/auth.storage';
 
 @Injectable()
 export class ChatService {
     private socket;
-    private socketUrl = 'http://localhost:3000/12345678';
+    private socketUrl = 'http://localhost:3000/chat_service';
     // private api_base = 'https://api-haidangdev.herokuapp.com/api/';
     private api_base = 'http://localhost:3000/api/';
 
     constructor(
-        private _http: Http
+        private _http: Http,
+        private _authStorage: AuthStorage
     ){
 
     }
@@ -28,7 +30,7 @@ export class ChatService {
                 + ':' 
                 + (d.getSeconds().toString().length == 1 ? '0'+d.getSeconds(): d.getSeconds());
         return new Promise((resolve, reject) => {
-            return this.socket.emit('AdminSendMessage', msg, function(message){
+            return this.socket.emit(`AdminSendMessage${this._authStorage.user()._id}`, msg, function(message){
                 return resolve(message);
             });
         });
@@ -37,8 +39,8 @@ export class ChatService {
 
     connect(){
         let obs = new Observable(observer => {
-            this.socket = io(this.socketUrl);
-            this.socket.on('AdminReceivedMessage', (data) => {
+            this.socket = io(this.socketUrl, {query: `AdminID=${this._authStorage.user()._id}&AdminName=${this._authStorage.user().fullname}&AdminAvatar=${this._authStorage.user().avatar}&isAdmin=true`});
+            this.socket.on(`AdminReceivedMessage${this._authStorage.user()._id}`, (data) => {
                 observer.next(data);
             });
             return () => {

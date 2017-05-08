@@ -7,7 +7,8 @@ import 'rxjs/add/operator/map';
 
 @Injectable()
 export class AuthService {
-    private api_base = 'https://api-haidangdev.herokuapp.com/api/';
+    // private api_base = 'https://api-haidangdev.herokuapp.com/api/';
+    private api_base = 'http://localhost:3000/api/';
     constructor(private _http: Http) { }
 
     login(user){

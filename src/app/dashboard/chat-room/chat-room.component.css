@@ -244,3 +244,7 @@
 .badge{
   background: #DD4B39;
 }
+.list-unstyled .active{
+  background: #438AC7;
+  color: #FFF;
+}

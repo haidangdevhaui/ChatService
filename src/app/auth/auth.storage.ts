@@ -26,4 +26,11 @@ export class AuthStorage {
         }
         return null;
     }
+
+    getToken(){
+        if(this.check()){
+            return localStorage.getItem('jwtToken');
+        }
+        return null;
+    }
 }
